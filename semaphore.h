@@ -6,7 +6,13 @@
 #include <sys/shm.h>
 #include <stdlib.h>
 
-#define KEY 24601
+#define SEMKEY 24601
+#define SHMKEY 46902
+
+int semaphore;
+int shared_memory;
+int file;
+
 
 void creation(char *);
 void removal();
