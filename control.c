@@ -3,7 +3,7 @@
 
 void creation(char * c){
     int ref;
-    ref = semget(KEY, 1, IPC_CREAT | IPC_EXCL | 0664);
+    ref = semget(KEY, 1, IPC_CREAT | IPC_EXCL | 0600);
     if(ref == -1){
         printf("Semaphore already exists.\n\n");
     }
@@ -27,7 +27,7 @@ void attach(){
 }
 
 
-int main(int argc, char ** argv){
+void control(int argc, char ** argv){
     if (argc < 2){
         printf("Not enough arguments. Failed.\n");
     }
@@ -46,10 +46,5 @@ int main(int argc, char ** argv){
             printf("Invalid arguments. Please try again.\n");
         }
   }
-  return 0;
 }
 
-
-int control(){
-
-}
