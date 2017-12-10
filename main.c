@@ -5,14 +5,23 @@ int main(){
 
 	union semun semopts;
 	semopts.val = 2;
-	semctl( sephamore, 0, SETVAL, semopts);
+	semctl( semaphore, 0, SETVAL, semopts);
 
-
+	int fd = open("story.txt", O_RDWR | O_APPEND, 0644 );
+	char *last_input = (char*)malloc(input_length);
+	read(fd, last_input , input_length);
 
 	char input[256];
 	printf("Input:\t");
 	fgets(input, sizeof(input), stdin);
-	printf("%s\n", input);
+	int size = strlen(input);
+	write(fd, input, size);
 
-	int i = scanf(input);
+	printf("\nLast line:\n\n \t%s\n", input);
+
+	shmdt(input_length);
+
+	return 0;
+
+
 }

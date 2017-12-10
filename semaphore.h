@@ -5,6 +5,8 @@
 #include <sys/sem.h>
 #include <sys/shm.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #define SEMKEY 24601
 #define SHMKEY 46902
