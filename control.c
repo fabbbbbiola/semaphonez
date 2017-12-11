@@ -23,15 +23,28 @@ void creation(){
 
 
 	//File Interaction
-        int fd = open("story.txt", O_CREAT | O_EXCL | O_RDWR | O_APPEND, 0644 );
+        int fd = open("story.txt", O_CREAT | O_TRUNC | O_RDWR, 0644 );
 	return fd;
 
 }
 
-void removal(){
-  int semaphore;
-  semaphore = semget(SEMKEY,0,0);
-  printf("Removed sempahore: %d\n\n", semctl(semaphore, 0, IPC_RMID));
+void removal(int fd){
+  	int semaphore;
+  	semaphore = semget(SEMKEY,0,0);
+	semctl(semaphore, 0, IPC_RMID);
+
+	int shared_memory;
+	shared_memory = shmget(SHMKEY,0,0);
+	semctl(shared_memory, 0, IPC_RMID);
+
+	struct stat st;
+	stat("story.txt", &st);
+	char *buffer;
+
+	read(fd, buffer, st.st_size);
+	printf("%s\n", buffer);
+
+	remove("story.txt");
 }
 
 void attach(){

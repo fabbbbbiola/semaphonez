@@ -11,12 +11,7 @@
 #define SEMKEY 24601
 #define SHMKEY 46902
 
-int semaphore;
-int shared_memory;
-int file;
-
-
-void creation(char *);
+void creation();
 void removal();
 void attach();
 void control(int, char **);
