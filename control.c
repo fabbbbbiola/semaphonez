@@ -1,7 +1,7 @@
 #include "semaphore.h"
 
 
-void creation(char * c){
+void creation(){
 
 	//Semaphore Interaction
   	semaphore = semget(SEMKEY, 1, IPC_CREAT | IPC_EXCL | 0600);
@@ -9,9 +9,10 @@ void creation(char * c){
     		printf("Semaphore already exists.\n\n");
   	}
   	else{
-	    	int i = *c;
-    		semctl(semaphore, 0, SETVAL, i);
-    		printf("ID: %d, Value: %s. \n\n", semaphore, c);
+	    	union semun semopts;
+		semopts.val = 2;
+    		semctl(semaphore, 0, SETVAL, semopts);
+    		printf("ID: %d \n\n", semaphore);
   	}
 
 	//Shared Memory Interaction
@@ -19,6 +20,12 @@ void creation(char * c){
 	if(shared_memory == -1){
 		printf("Shared Memory already exists\n\n");
 	}
+
+
+	//File Interaction
+        int fd = open("story.txt", O_CREAT | O_EXCL | O_RDWR | O_APPEND, 0644 );
+	return fd;
+
 }
 
 void removal(){
