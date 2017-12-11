@@ -26,5 +26,8 @@ int main(int argc, char ** argv){
 		operation->sem_op = 1;
 		semop(semaphore, operation, 1);
 	}
+	else {
+	  control(argc, argv);
+	}
 	return 0;
 }
