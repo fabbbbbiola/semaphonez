@@ -11,7 +11,15 @@
 #define SEMKEY 24601
 #define SHMKEY 46902
 
-void creation();
+int creation();
 void removal();
 void attach();
 void control(int, char **);
+
+union semun {
+    int              val;    /* Value for SETVAL */
+    struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+    unsigned short  *array;  /* Array for GETALL, SETALL */
+    struct seminfo  *__buf;  /* Buffer for IPC_INFO
+                                (Linux-specific) */
+};
