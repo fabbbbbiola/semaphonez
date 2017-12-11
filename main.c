@@ -2,7 +2,11 @@
 
 int main(int argc, char ** argv){
 	if (!control(argc, argv)){
-		int input_length = shmat(shared_memory, 0, 0);
+       		struct sembuf * operation = { -1, semaphore, SEM_UNDO};
+        	//Blocks until all other functions end
+	        semop(semaphore, operation, 1);
+
+		int input_length = shmat(SHMKEY, 0, 0);
 
 		int fd = creation();
 		char *last_input = (char*)malloc(input_length);

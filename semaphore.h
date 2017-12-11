@@ -14,7 +14,7 @@
 int creation();
 void removal();
 void attach();
-void control(int, char **);
+int control(int, char **);
 
 union semun {
     int              val;    /* Value for SETVAL */
@@ -23,3 +23,4 @@ union semun {
     struct seminfo  *__buf;  /* Buffer for IPC_INFO
                                 (Linux-specific) */
 };
+

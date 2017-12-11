@@ -27,37 +27,48 @@ int creation(){
 
 }
 
-void removal(){
-  	int semaphore = semget(SEMKEY,0,0);
-	struct sembuf{
-		short sem_op = -1;
-		short sem_num = semaphore;
-		short sem_flag = SEM_UNDO;
-	};
-	//Blocks until all other functions end
-	semop(semaphore, sembuf, 1);
-	semctl(semaphore, 0, IPC_RMID);
-
-	int shared_memory;
-	shared_memory = shmget(SHMKEY,0,0);
-	semctl(shared_memory, 0, IPC_RMID);
-
-	view();
-
-	remove("story.txt");
-}
-
 void view(){
         struct stat st;
         stat("story.txt", &st);
         char *buffer;
+
+  	FILE *stream;
+  	char my_file[]="story.txt";
+
+  	fileno(stdin);
+
+	int fd;
+  	if ((stream = fopen(my_file, "w")) == NULL)
+    		perror("fopen() error");
+  	else {
+    		fd = fileno(stream);
+    		fclose(stream);
+  	}
 
         read(fd, buffer, st.st_size);
         printf("%s\n", buffer);
 }
 
 
-void control(int argc, char ** argv){
+void removal(){
+        int semaphore = semget(SEMKEY,0,0);
+        struct sembuf * operation = { -1, semaphore, SEM_UNDO};
+        //Blocks until all other functions end
+        semop(semaphore, operation, 1);
+        semctl(semaphore, 0, IPC_RMID);
+
+        int shared_memory;
+        shared_memory = shmget(SHMKEY,0,0);
+        semctl(shared_memory, 0, IPC_RMID);
+
+        view();
+
+        remove("story.txt");
+}
+
+
+
+int control(int argc, char ** argv){
 	int used = 0;
 	if(strcmp(argv[1], "-r") == 0){
       		removal();

@@ -7,9 +7,6 @@ control.o: control.c semaphore.h
 main.o: main.c semaphore.h
 	gcc -c main.c
 
-run: all 
-	./semaphorez.out
-
 clean:
 	-rm -rf *~
 	-rm -rf *.o
